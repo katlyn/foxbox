@@ -43,10 +43,10 @@ export const init = (bot: CommandClient): void => {
 
   bot.registerCommand('ascii', () => {
     return 'ASCII commands\n' +
-      '**`illdoit`** - I will, mark my words, I\'ll do it\n' +
+      '**`illdoit`** - I will, mark my words, I\'ll do it.\n' +
       '**`riot`** - I did it, and there\'s nothing you could have done to stop me.\n' +
       '**`unriot`** - Let\'s just forget that I ever did that.\n' +
-      '**`flip`** - Everything\'s going wrong\n' +
+      '**`flip`** - Everything\'s going wrong.\n' +
       '**`unflip`** - But maybe we found a solution.'
   }, {
     description: 'Information on the various ASCII commands.'
