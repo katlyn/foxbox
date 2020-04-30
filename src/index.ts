@@ -2,12 +2,14 @@ import 'source-map-support/register'
 import { CommandClient } from 'eris'
 
 import ascii from './commands/fun/ascii'
+import evaluate from './commands/util/evaluate'
 
 const bot = new CommandClient(process.env.TOKEN, {}, {
   prefix: ['%', '@mention']
 })
 
 ascii.init(bot)
+evaluate.init(bot)
 
 bot.on('ready', () => {
   console.log(`Connected to Discord as ${bot.user.username}#${bot.user.discriminator}`)
