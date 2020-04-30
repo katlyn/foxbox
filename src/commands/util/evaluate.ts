@@ -62,7 +62,8 @@ export const handleEval = async (msg: Message, args: string[]): Promise<void> =>
 
 export const init = (bot: CommandClient): void => {
   bot.registerCommand('evaluate', handleEval, {
-    aliases: ['eval']
+    aliases: ['eval'],
+    hidden: true
   })
 }
 
