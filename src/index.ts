@@ -5,7 +5,7 @@ import ascii from './commands/fun/ascii'
 import evaluate from './commands/util/evaluate'
 
 const bot = new CommandClient(process.env.TOKEN, {}, {
-  prefix: ['%', '@mention']
+  prefix: process.env.PREFIX.split(',')
 })
 
 ascii.init(bot)
