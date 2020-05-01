@@ -54,7 +54,7 @@ export const init = (bot: CommandClient): void => {
 }
 
 interface FlipTable { [key: string]: string }
-/* eslint-disable */
+/* eslint-disable quote-props */
 const flipTable: FlipTable = {
   '0': '0',
   '1': 'Ɩ',
@@ -80,7 +80,7 @@ const flipTable: FlipTable = {
   'm': 'ɯ',
   'n': 'u',
   'p': 'd',
-  'q' : 'b',
+  'q': 'b',
   'r': 'ɹ',
   't': 'ʇ',
   'u': 'n',
@@ -88,6 +88,7 @@ const flipTable: FlipTable = {
   'w': 'ʍ',
   'y': 'ʎ',
   'A': '∀',
+  'B': '𐐒',
   'C': 'Ɔ',
   'E': 'Ǝ',
   'F': 'Ⅎ',
@@ -105,7 +106,7 @@ const flipTable: FlipTable = {
   'W': 'M',
   'Y': '⅄',
   '.': '˙',
-  ',': "'", 
+  ',': "'",
   "'": ',',
   '"': ',,',
   '`': ',',
