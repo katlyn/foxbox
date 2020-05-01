@@ -43,11 +43,11 @@ export const init = (bot: CommandClient): void => {
     } finally {
       const endTime = new Date()
       const timeElapsed = (endTime.getTime() - startTime.getTime()) / 1000
-  
+
       if (res.length === 0) {
         res = '[No Output]'
       }
-  
+
       await msg.channel.createMessage({
         embed: {
           color: errored ? 0xec282c : 0x31ada9,
