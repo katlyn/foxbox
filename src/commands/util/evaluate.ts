@@ -21,7 +21,7 @@ export const init = (bot: CommandClient): void => {
       await msg.channel.createMessage(msgs[Math.floor(Math.random() * msgs.length)])
       return
     }
-    await msg.channel.sendTyping()
+    const isTyping = msg.channel.sendTyping()
     // Message content minus prefix
     let toEval = msg.content.replace(/\S+/, '').trim()
     if (toEval.startsWith('```')) {
@@ -47,7 +47,7 @@ export const init = (bot: CommandClient): void => {
       if (res === undefined || String(res).length === 0) {
         res = '[No Output]'
       }
-
+      await isTyping
       await msg.channel.createMessage({
         embed: {
           color: errored ? 0xec282c : 0x31ada9,
