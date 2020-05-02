@@ -44,7 +44,7 @@ export const init = (bot: CommandClient): void => {
       const endTime = new Date()
       const timeElapsed = (endTime.getTime() - startTime.getTime()) / 1000
 
-      if (res.length === 0) {
+      if (res === undefined || String(res).length === 0) {
         res = '[No Output]'
       }
 
