@@ -8,7 +8,7 @@ export const init = (bot: CommandClient): void => {
     if (user === undefined) {
       user = msg.author
     }
-    if (args.length === 2) {
+    if (args.length >= 2) {
       if (msg.author.id === user.id) {
         await msg.channel.createMessage('You can\'t change your own boys points bro')
       } else if (isNaN(Number(args[1]))) {
