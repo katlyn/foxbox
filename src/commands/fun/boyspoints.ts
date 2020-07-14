@@ -3,7 +3,6 @@ import { CommandClient } from 'eris'
 import r from '../../config/redis'
 
 export const init = (bot: CommandClient): void => {
-  console.log('loaded')
   bot.registerCommand('boyspoints', async (msg, args) => {
     let user = msg.mentions[0]
     if (user === undefined) {
