@@ -8,22 +8,22 @@
   "dependencies": {
     "canvas": "^2.6.1",
     "eris": "^0.11.2",
-    "ioredis": "^4.17.1",
+    "ioredis": "^4.17.3",
     "node-fetch": "^2.6.0",
-    "source-map-support": "^0.5.16"
+    "source-map-support": "^0.5.19"
   },
   "devDependencies": {
-    "@types/ioredis": "^4.16.2",
-    "@types/node": "^13.7.7",
+    "@types/ioredis": "^4.17.4",
+    "@types/node": "^13.13.21",
     "@types/node-fetch": "^2.5.7",
-    "@typescript-eslint/eslint-plugin": "2",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
     "eslint": "6",
     "eslint-config-standard-with-typescript": "^15.0.0",
-    "eslint-plugin-import": "2",
-    "eslint-plugin-node": "11",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "4",
     "eslint-plugin-standard": "4",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.7"
   },
   "scripts": {
     "build": "tsc"
