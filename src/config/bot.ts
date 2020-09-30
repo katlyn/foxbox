@@ -11,7 +11,7 @@ export const tokenizeArgs = (argumentString: string): string[] => {
   let current = ''
   let openQuote = ''
   for (const char of argumentString) {
-    if (['"', "'",].includes(char)) {
+    if (['"', "'"].includes(char)) {
       if (current[current.length - 1] === '\\') {
         current = current.replace(/.$/, char)
       } else if (openQuote === char) {
@@ -47,5 +47,3 @@ export const tokenizeArgs = (argumentString: string): string[] => {
 
   return args
 }
-
-
