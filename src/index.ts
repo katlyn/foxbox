@@ -3,14 +3,12 @@ import 'source-map-support/register'
 import { bot } from './config/bot'
 
 import ascii from './commands/fun/ascii'
-import boyspoints from './commands/fun/boyspoints'
 import canvas from './commands/fun/canvas'
 import choose from './commands/util/choose'
 import evaluate from './commands/util/evaluate'
 import wolfram from './commands/util/wolfram'
 
 ascii.init(bot)
-boyspoints.init(bot)
 canvas.init(bot)
 choose.init(bot)
 evaluate.init(bot)
