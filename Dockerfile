@@ -4,7 +4,7 @@ WORKDIR /usr/bot
 
 COPY tsconfig.json package.json package-lock.json /usr/bot/
 
-RUN yarn
+RUN npm i
 
 COPY ./src /usr/bot/src/
 
