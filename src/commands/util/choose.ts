@@ -2,9 +2,16 @@ import { CommandClient } from 'eris'
 import { tokenizeArgs } from '../../config/bot'
 
 export const init = (bot: CommandClient): void => {
-  bot.registerCommand('choose', (msg, args) => {
+  bot.registerCommand('choose', async (msg, args) => {
     const choices = tokenizeArgs(args.join(' '))
-    return choices[Math.floor(Math.random() * choices.length)]
+    await msg.channel.createMessage({
+      content: choices[Math.floor(Math.random() * choices.length)],
+      allowedMentions: {
+        everyone: false,
+        roles: false,
+        users: false
+      }
+    })
   })
 }
 
