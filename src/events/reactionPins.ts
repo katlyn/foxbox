@@ -10,7 +10,7 @@ const init = (bot: Client): void => {
         .then(async config => {
           if (emoji.name === config.pinReaction) {
             const reacted = await bot.getMessageReaction(msg.channel.id, msg.id, config.pinReaction)
-            if (reacted.length >= config.pinLimit && config.pinLimit !== 0) {
+            if (reacted.length === config.pinLimit && config.pinLimit !== 0) {
               try {
                 await (msg as Message).pin()
               } catch (e) {}
