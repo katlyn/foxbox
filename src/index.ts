@@ -5,7 +5,6 @@ import runMigrations from './config/migrations'
 import pool from './config/postgres'
 
 import ascii from './commands/fun/ascii'
-import canvas from './commands/fun/canvas'
 import choose from './commands/util/choose'
 import evaluate from './commands/util/evaluate'
 import wolfram from './commands/util/wolfram'
@@ -14,7 +13,6 @@ import wolfram from './commands/util/wolfram'
   await runMigrations(pool)
 
   ascii.init(bot)
-  canvas.init(bot)
   choose.init(bot)
   evaluate.init(bot)
   wolfram.init(bot)
