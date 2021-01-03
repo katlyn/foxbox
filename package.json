@@ -7,6 +7,7 @@
   "repository": "https://github.com/thegordhoard/hoardbot",
   "dependencies": {
     "eris": "^0.14.0",
+    "flake-idgen": "^1.4.0",
     "ioredis": "^4.19.2",
     "node-fetch": "^2.6.1",
     "pg": "^8.5.1",
@@ -14,6 +15,7 @@
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
+    "@types/flake-idgen": "^0.1.30",
     "@types/ioredis": "^4.17.8",
     "@types/node": "^14.14.10",
     "@types/node-fetch": "^2.5.7",

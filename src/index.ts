@@ -4,6 +4,8 @@ import { bot } from './config/bot'
 import runMigrations from './config/migrations'
 import pool from './config/postgres'
 
+import gangs from './commands/administration/gangs'
+
 import ascii from './commands/fun/ascii'
 
 import config from './commands/util/configuration'
@@ -17,6 +19,8 @@ import reactionPins from './events/reactionPins'
 
 (async () => {
   await runMigrations(pool)
+
+  gangs.init(bot)
 
   ascii.init(bot)
 
