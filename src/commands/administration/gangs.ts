@@ -68,7 +68,7 @@ const init = (bot: CommandClient): void => {
           break
         }
 
-        const [emoji, role] = reply.content.split(' ')
+        const [emoji, role] = reply.content.split(/\s+/)
         if (role === undefined) {
           await msg.channel.createMessage('That is not a valid role. Reply with an emoji and role mention, and `done` when all gangs are provided.')
           continue
