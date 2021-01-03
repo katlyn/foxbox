@@ -2,7 +2,8 @@ import { CommandClient } from 'eris'
 
 export const bot = new CommandClient(process.env.TOKEN, {}, {
   prefix: process.env.PREFIX.split(','),
-  owner: 'katlyn#9607'
+  owner: 'katlyn#9607',
+  defaultHelpCommand: false
 })
 
 export const tokenizeArgs = (argumentString: string): string[] => {

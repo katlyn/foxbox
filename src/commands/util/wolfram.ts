@@ -78,7 +78,9 @@ export const init = (bot: CommandClient): void => {
       })
     }
   }, {
-    aliases: ['alpha']
+    aliases: ['alpha'],
+    description: 'Query Wolfram|Alpha.',
+    usage: 'utility'
   })
 }
 

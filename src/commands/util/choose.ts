@@ -12,6 +12,9 @@ export const init = (bot: CommandClient): void => {
         users: false
       }
     })
+  }, {
+    usage: 'utility',
+    description: 'Choose from a list of options.'
   })
 }
 

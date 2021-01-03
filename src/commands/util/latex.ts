@@ -21,8 +21,9 @@ export const init = (bot: CommandClient): void => {
       }
     })
   }, {
-    description: 'Render a LaTeX expression',
-    usage: 'latex x^2 = 9'
+    description: 'Render a LaTeX expression.',
+    fullDescription: 'latex x^2 = 9',
+    usage: 'utility'
   })
 }
 

@@ -9,6 +9,7 @@ import ascii from './commands/fun/ascii'
 import config from './commands/util/configuration'
 import choose from './commands/util/choose'
 import evaluate from './commands/util/evaluate'
+import help from './commands/util/help'
 import latex from './commands/util/latex'
 import wolfram from './commands/util/wolfram'
 
@@ -22,6 +23,7 @@ import reactionPins from './events/reactionPins'
   config.init(bot)
   choose.init(bot)
   evaluate.init(bot)
+  help.init(bot)
   latex.init(bot)
   wolfram.init(bot)
 

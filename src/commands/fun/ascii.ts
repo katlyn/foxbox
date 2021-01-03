@@ -22,30 +22,35 @@ export const init = (bot: CommandClient): void => {
   bot.registerCommand('illdoit', () => {
     return '(ノ゜-゜ )ノ ┬─┬'
   }, {
-    hidden: true
+    hidden: true,
+    usage: 'fun'
   })
   bot.registerCommand('riot', () => {
     return '┻━┻︵ \\\\(°□°)/ ︵ ┻━┻'
   }, {
-    hidden: true
+    hidden: true,
+    usage: 'fun'
   })
   bot.registerCommand('unriot', () => {
     return '┬─┬ ᓕ (°w°) ᘄ ┬─┬'
   }, {
-    hidden: true
+    hidden: true,
+    usage: 'fun'
   })
   bot.registerCommand('flip', msg => {
     const text = msg.cleanContent.substring(msg.prefix.length + 'flip'.length).trim()
     console.log(flip(text))
     return `\`(╯°□°）╯︵ ${flip(text)}\``
   }, {
-    hidden: true
+    hidden: true,
+    usage: 'fun'
   })
   bot.registerCommand('unflip', msg => {
     const text = msg.cleanContent.substring(msg.prefix.length + 'unflip'.length).trim()
     return `\`${text} ノ( ゜-゜ノ)\``
   }, {
-    hidden: true
+    hidden: true,
+    usage: 'fun'
   })
 
   bot.registerCommand('ascii', () => {
@@ -56,7 +61,8 @@ export const init = (bot: CommandClient): void => {
       '**`flip`** - Everything\'s going wrong.\n' +
       '**`unflip`** - But maybe we found a solution.'
   }, {
-    description: 'Information on the various ASCII commands.'
+    description: 'Information on the various ASCII commands.',
+    usage: 'fun'
   })
 }
 

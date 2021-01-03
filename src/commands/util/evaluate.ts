@@ -61,7 +61,8 @@ export const init = (bot: CommandClient): void => {
     }
   }, {
     aliases: ['eval'],
-    hidden: true
+    hidden: true,
+    usage: 'utility'
   })
 }
 
