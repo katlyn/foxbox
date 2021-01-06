@@ -7,6 +7,7 @@ import pool from './config/postgres'
 import gangs from './commands/administration/gangs'
 
 import ascii from './commands/fun/ascii'
+import uwu from './commands/fun/uwu'
 
 import config from './commands/util/configuration'
 import choose from './commands/util/choose'
@@ -23,6 +24,7 @@ import reactionPins from './events/reactionPins'
   gangs.init(bot)
 
   ascii.init(bot)
+  uwu.init(bot)
 
   config.init(bot)
   choose.init(bot)
