@@ -8,26 +8,26 @@
   "dependencies": {
     "eris": "^0.14.0",
     "flake-idgen": "^1.4.0",
-    "ioredis": "^4.19.2",
+    "ioredis": "^4.19.4",
     "node-fetch": "^2.6.1",
     "pg": "^8.5.1",
-    "postgres-migrations": "^5.1.0",
+    "postgres-migrations": "^5.1.1",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
     "@types/flake-idgen": "^0.1.30",
-    "@types/ioredis": "^4.17.8",
-    "@types/node": "^14.14.10",
-    "@types/node-fetch": "^2.5.7",
-    "@types/pg": "^7.14.7",
-    "@typescript-eslint/eslint-plugin": "^4.8.2",
-    "eslint": "7",
-    "eslint-config-standard-with-typescript": "^19.0.1",
+    "@types/ioredis": "^4.19.3",
+    "@types/node": "^14.14.25",
+    "@types/node-fetch": "^2.5.8",
+    "@types/pg": "^7.14.9",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
+    "eslint": "^7.19.0",
+    "eslint-config-standard-with-typescript": "^20.0.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "4",
-    "eslint-plugin-standard": "4",
-    "typescript": "^4.1.2"
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.1.0",
+    "typescript": "^4.1.3"
   },
   "scripts": {
     "build": "tsc"
