@@ -1,12 +1,13 @@
 import { CommandClient } from 'eris'
+import { QueryResult } from 'pg'
 import pool from '../../config/postgres'
 
 const init = (bot: CommandClient): void => {
   bot.registerCommand('uwu', async (msg, args) => {
-    const topFive = await pool.query({
+    const topFive: QueryResult<{id: string, uwus: string}> = await pool.query({
       text: 'SELECT * FROM USERS ORDER BY uwus DESC LIMIT 5'
     })
-    const userScore = await pool.query({
+    const userScore: QueryResult<{id: string, uwus: string}> = await pool.query({
       text: 'SELECT * FROM USERS WHERE id = $1',
       values: [msg.author.id]
     })
@@ -31,7 +32,7 @@ const init = (bot: CommandClient): void => {
   })
 
   bot.on('messageCreate', msg => {
-    if (msg.content.toLocaleLowerCase() === 'uwu') {
+    if (msg.content.toLocaleLowerCase() === 'uwu' && !msg.author.bot) {
       pool.query({
         text: 'INSERT INTO users (id, uwus) VALUES ($1, 1) ON CONFLICT (id) DO UPDATE SET uwus = users.uwus + 1',
         values: [msg.author.id]
