@@ -26,7 +26,7 @@ const init = (bot: CommandClient): void => {
       const guild = (msg.channel as GuildTextableChannel).guild
 
       await msg.channel.createMessage('What would you like the announcement text to be? Reply with `cancel` to stop command execution at any time.')
-      const announcement = (await getReply(msg.author, msg.channel)).content
+      const announcement = await getReply(msg.author, msg.channel)
 
       await msg.channel.createMessage('What channel should this be posted in?')
       let channelReply = await getReply(msg.author, msg.channel)
@@ -38,27 +38,7 @@ const init = (bot: CommandClient): void => {
         channel = guild.channels.get(channelReply.content.slice(2, -1))
       }
 
-      placeholder = await (channel as GuildTextableChannel).createMessage({
-        content: `${announcement}\n*This message will be updated momentarily with gang roles.*`,
-        allowedMentions: {
-          everyone: msg.mentionEveryone,
-          roles: msg.roleMentions,
-          users: msg.mentions.map(u => u.id)
-        }
-      })
-
-      // Delete any other gangs
-      await client.query({
-        text: 'DELETE FROM gang_messages WHERE guild_id = $1',
-        values: [guild.id]
-      })
-      // Add this gang message
-      await client.query({
-        text: 'INSERT INTO gang_messages (id, guild_id) VALUES ($1, $2)',
-        values: [placeholder.id, guild.id]
-      })
-
-      const gangs: Gang[] = []
+      const gangs: Array<Partial<Gang>> = []
 
       // loop to collect all gangs
       await msg.channel.createMessage('What gangs would you like to add? Reply with an emoji and role mention, and `done` when all gangs are provided.')
@@ -83,8 +63,7 @@ const init = (bot: CommandClient): void => {
         const gang = {
           id: snowflake.next(),
           emoji: customEmojiRegex.test(emoji) ? customEmojiRegex.exec(emoji)?.groups?.e : emoji,
-          role: guildRole.id,
-          message: placeholder.id
+          role: guildRole.id
         }
 
         try {
@@ -96,20 +75,31 @@ const init = (bot: CommandClient): void => {
         }
       }
 
-      await placeholder.edit({
-        content: `${announcement}\n${gangs.map(g => `${g.emoji.includes(':') ? `<${g.emoji}>` : g.emoji} - <@&${g.role}>`).join('\n')}`,
+      placeholder = await (channel as GuildTextableChannel).createMessage({
+        content: `${announcement.content}\n${gangs.map(g => `${g.emoji.includes(':') ? `<${g.emoji}>` : g.emoji} - <@&${g.role}>`).join('\n')}`,
         allowedMentions: {
-          everyone: msg.mentionEveryone,
-          roles: msg.roleMentions,
-          users: msg.mentions.map(u => u.id)
+          everyone: announcement.mentionEveryone,
+          roles: announcement.roleMentions,
+          users: announcement.mentions.map(u => u.id)
         }
+      })
+
+      // Delete any other gangs
+      await client.query({
+        text: 'DELETE FROM gang_messages WHERE guild_id = $1',
+        values: [guild.id]
+      })
+      // Add this gang message
+      await client.query({
+        text: 'INSERT INTO gang_messages (id, guild_id) VALUES ($1, $2)',
+        values: [placeholder.id, guild.id]
       })
 
       await Promise.all(gangs.map(async g => {
         await placeholder?.addReaction(g.emoji)
         await client.query({
           text: 'INSERT INTO gangs (id, gang_message, role_id, emoji) VALUES ($1, $2, $3, $4)',
-          values: [g.id, g.message, g.role, g.emoji]
+          values: [g.id, placeholder.id, g.role, g.emoji]
         })
       }))
 
