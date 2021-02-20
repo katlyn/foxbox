@@ -1,6 +1,14 @@
 import { CommandClient } from 'eris'
 
-export const bot = new CommandClient(process.env.TOKEN, {}, {
+export const bot = new CommandClient(process.env.TOKEN, {
+  intents: [
+    'guilds',
+    'guildMembers',
+    'guildMessages',
+    'guildMessageReactions',
+    'directMessages'
+  ]
+}, {
   prefix: process.env.PREFIX.split(','),
   owner: 'katlyn#9607',
   defaultHelpCommand: false
