@@ -12,13 +12,14 @@ export interface OwoImage {
 }
 
 const init = (bot: CommandClient): void => {
-  const owo = bot.registerCommand('owo', async msg => {
+  const owo = bot.registerCommand('owo', async (msg, args) => {
     const imageQuery = await pool.query<OwoImage>({
-      text: 'SELECT * FROM owo_images ORDER BY RANDOM() LIMIT 1'
+      text: 'SELECT * FROM owo_images WHERE tags @> $1 ORDER BY RANDOM() LIMIT 1',
+      values: [args]
     })
 
     if (imageQuery.rowCount < 1) {
-      await msg.channel.createMessage('For some reason I can\'t find any images in my database ;~;')
+      await msg.channel.createMessage('For some reason I can\'t find any images in my database that match ;~;')
       return
     }
 
@@ -40,6 +41,23 @@ const init = (bot: CommandClient): void => {
     usage: 'utility',
     requirements: {
       userIDs: ['250322741406859265']
+    }
+  })
+
+  owo.registerSubcommand('get', async (msg, [id]) => {
+    try {
+      BigInt(id)
+    } catch (err) {
+      return 'Invalid ID'
+    }
+    const { rows: [imageQuery] } = await pool.query<OwoImage>({
+      text: 'SELECT * FROM owo_images WHERE id = $1',
+      values: [id]
+    })
+    if (imageQuery === undefined) {
+      return 'Image not found'
+    } else {
+      return imageQuery.link
     }
   })
 }
