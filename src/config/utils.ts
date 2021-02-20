@@ -1,4 +1,4 @@
-import { Channel, GenericCheckFunction, Guild, GuildChannel, Message, User } from 'eris'
+import { Channel, Message, User } from 'eris'
 
 import { bot } from './bot'
 
