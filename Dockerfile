@@ -1,14 +1,14 @@
 FROM node:15-alpine
 WORKDIR /usr/build
 COPY tsconfig.json package.json package-lock.json /usr/build/
-RUN npm install
+RUN npm ci
 COPY ./src /usr/build/src/
 RUN npm run build
 
 FROM node:15-alpine
 WORKDIR /usr/bot
 COPY package.json package-lock.json /usr/bot/
-RUN npm install --production
+RUN npm ci --production
 COPY migrations /usr/bot/migrations/
 COPY --from=0 /usr/build/dist /usr/bot/dist
 
