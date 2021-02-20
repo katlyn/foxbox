@@ -1,4 +1,4 @@
-import { CommandClient, GuildTextableChannel, Message } from 'eris'
+import { CommandClient, Guild, GuildTextableChannel, Message } from 'eris'
 
 import pool from '../../config/postgres'
 import snowflake from '../../config/snowflake'
@@ -18,7 +18,7 @@ export interface Gang {
 const customEmojiRegex = /<(?<e>a?:\w+:[0-9]+)>/
 
 const init = (bot: CommandClient): void => {
-  bot.registerCommand('gangs', async msg => {
+  const gangs = bot.registerCommand('gangs', async msg => {
     let placeholder: Message|undefined
     const client = await pool.connect()
     try {
@@ -86,19 +86,19 @@ const init = (bot: CommandClient): void => {
 
       // Delete any other gangs
       await client.query({
-        text: 'DELETE FROM gang_messages WHERE guild_id = $1',
+        text: 'DELETE FROM gang_messages WHERE guild = $1',
         values: [guild.id]
       })
       // Add this gang message
       await client.query({
-        text: 'INSERT INTO gang_messages (id, guild_id) VALUES ($1, $2)',
+        text: 'INSERT INTO gang_messages (id, guild) VALUES ($1, $2)',
         values: [placeholder.id, guild.id]
       })
 
       await Promise.all(gangs.map(async g => {
         await placeholder?.addReaction(g.emoji)
         await client.query({
-          text: 'INSERT INTO gangs (id, gang_message, role_id, emoji) VALUES ($1, $2, $3, $4)',
+          text: 'INSERT INTO gangs (id, message, role, emoji) VALUES ($1, $2, $3, $4)',
           values: [g.id, placeholder.id, g.role, g.emoji]
         })
       }))
@@ -124,7 +124,12 @@ const init = (bot: CommandClient): void => {
     description: 'Admin management of gangs.',
     fullDescription: 'Similar to reaction roles, only one set of gangs can be active on each guild. A user can only be in one gang at a time',
     defaultSubcommandOptions: {
-      usage: 'admin'
+      usage: 'admin',
+      requirements: {
+        permissions: {
+          administrator: true
+        }
+      }
     },
     requirements: {
       permissions: {
@@ -132,6 +137,41 @@ const init = (bot: CommandClient): void => {
       }
     },
     usage: 'administration'
+  })
+
+  gangs.registerSubcommand('disband', async msg => {
+    await msg.channel.createMessage('Are you sure you want to remove gang roles from all members? (yes/no)')
+    const confirmation = await getReply(msg.author, msg.channel)
+    if (confirmation.content.toLowerCase() !== 'yes') {
+      await msg.channel.createMessage('Aborting')
+      return
+    }
+    const updateMsg = await msg.channel.createMessage('Disbanding gangs <a:nyanshock:722480523171332168>\nFetching members...')
+    const { guild } = (msg.channel as GuildTextableChannel)
+    await guild.fetchAllMembers()
+    await updateMsg.edit(updateMsg.content + ' Done.\nRemoving roles...')
+
+    const { rows: gangs } = await pool.query<Gang>({
+      text: 'SELECT * FROM gangs WHERE message = (SELECT id FROM gang_messages WHERE guild = $1)',
+      values: [guild.id]
+    })
+
+    const gangRoles = gangs.map(g => g.role)
+
+    const rolePromises: Array<Promise<void>> = []
+    guild.members.forEach(m => {
+      if (m.roles.some(r => gangRoles.includes(r))) {
+        const prom = m.edit({
+          roles: m.roles.filter(r => !gangRoles.some(g => r === g))
+        })
+        rolePromises.push(prom)
+      }
+    })
+    await Promise.all(rolePromises)
+    await updateMsg.edit('Gangs disbanded <a:nyanshock:722480523171332168>')
+  }, {
+    aliases: ['reset'],
+    description: 'Remove gang roles from all members.'
   })
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -145,26 +185,30 @@ const init = (bot: CommandClient): void => {
         return
       }
 
+      const [member] = await guild.fetchMembers({
+        userIDs: [user.id]
+      })
+
+      if (member.bot) {
+        return
+      }
+
       const emojiString = emoji.id === null
         ? emoji.name
         : `${emoji.animated ? 'a' : ''}:${emoji.name}:${emoji.id}`
 
       // TODO: Cache all the emoji reactions because that'd be a good thing to.
-      const gangs = await pool.query({
-        text: 'SELECT role_id, emoji FROM gangs WHERE gang_message = $1',
+      const gangs = await pool.query<Gang>({
+        text: 'SELECT * FROM gangs WHERE message = $1',
         values: [msg.id]
       })
 
-      const gangRole = gangs.rows.find(g => g.emoji === emojiString)?.role_id
+      const gangRole = gangs.rows.find(g => g.emoji === emojiString)?.role
       if (gangRole === undefined) {
         return
       }
 
-      const [member] = await guild.fetchMembers({
-        userIDs: [user.id]
-      })
-
-      const roles = member.roles.filter(r => gangs.rows.find(g => g.role_id === r) === undefined)
+      const roles = member.roles.filter(r => !gangs.rows.some(g => g.role === r))
       roles.push(gangRole)
 
       await member.edit({
