@@ -1,4 +1,4 @@
-import { CommandClient, Guild, GuildTextableChannel, Message } from 'eris'
+import { CommandClient, GuildTextableChannel, Message } from 'eris'
 
 import pool from '../../config/postgres'
 import snowflake from '../../config/snowflake'
