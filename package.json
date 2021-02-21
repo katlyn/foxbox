@@ -6,15 +6,19 @@
   "main": "src/index.ts",
   "repository": "https://github.com/thegordhoard/hoardbot",
   "dependencies": {
+    "color-name-list": "^7.31.0",
+    "difflib": "^0.2.4",
     "eris": "^0.14.0",
     "flake-idgen": "^1.4.0",
     "ioredis": "^4.22.0",
+    "nearest-color": "^0.4.4",
     "node-fetch": "^2.6.1",
     "pg": "^8.5.1",
     "postgres-migrations": "^5.1.1",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
+    "@types/difflib": "^0.2.0",
     "@types/flake-idgen": "^0.1.30",
     "@types/ioredis": "^4.19.4",
     "@types/node": "^14.14.31",
