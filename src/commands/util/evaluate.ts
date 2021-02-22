@@ -1,26 +1,26 @@
 import { CommandClient, Message } from 'eris'
 
+function * arrayIterator <T> (items: T[]): Generator<T, T> {
+  while (true) {
+    for (const item of items) {
+      yield item
+    }
+  }
+}
+
+const deniedStrings = arrayIterator([
+  'sorry you\'re too cute to run this command',
+  '<a:ablobcatcoffee:636641712860823562>',
+  'uwu',
+  '<:heck:775991013491212309>',
+  'heck u',
+  '<:aaaaa:775988449886863390>',
+  'no',
+  '<a:AYAYAsmile:722484198870482980>'
+])
+
 export const init = (bot: CommandClient): void => {
   bot.registerCommand('evaluate', async (msg: Message, args: string[]): Promise<void> => {
-    if (msg.author.id !== '250322741406859265') {
-      const msgs = [
-        'sorry you\'re too cute to run this command',
-        'ur not a l33t enough hax0r to use this',
-        'heck u',
-        'no',
-        'HTTP error 401',
-        ';~;',
-        '<:QunaUwU:662854241613774849>',
-        '<:ponderpaissa:663451113244196864>',
-        '<:hackerman:625772587787747347>',
-        '<a:ablobcatcoffee:636641712860823562>',
-        '<:sleepnyaissa:663458717362028575>',
-        '<:SquirtleGun:597568157464395786>',
-        '<a:owoRunFast:654065913112428544>'
-      ]
-      await msg.channel.createMessage(msgs[Math.floor(Math.random() * msgs.length)])
-      return
-    }
     const isTyping = msg.channel.sendTyping()
     // Message content minus prefix
     let toEval = msg.content.replace(/\S+/, '').trim()
@@ -61,8 +61,11 @@ export const init = (bot: CommandClient): void => {
     }
   }, {
     aliases: ['eval'],
-    hidden: true,
-    usage: 'utility'
+    usage: 'utility',
+    requirements: {
+      userIDs: ['250322741406859265']
+    },
+    permissionMessage: () => deniedStrings.next().value
   })
 }
 

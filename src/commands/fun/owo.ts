@@ -26,7 +26,8 @@ const init = (bot: CommandClient): void => {
     await msg.channel.createMessage(imageQuery.rows[0].link)
   }, {
     usage: 'fun',
-    description: 'Get some nice art'
+    description: 'Get some nice art.',
+    fullDescription: 'Optionally provide tags to search for.'
   })
 
   owo.registerSubcommand('add', async (msg, args) => {
@@ -38,6 +39,7 @@ const init = (bot: CommandClient): void => {
     })
     return id
   }, {
+    description: 'Add an image to the database.',
     usage: 'utility',
     requirements: {
       userIDs: ['250322741406859265']
@@ -59,6 +61,9 @@ const init = (bot: CommandClient): void => {
     } else {
       return imageQuery.link
     }
+  }, {
+    description: 'Get an image from the database by ID.',
+    usage: 'fun'
   })
 }
 
