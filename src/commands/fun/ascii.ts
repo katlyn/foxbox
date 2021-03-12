@@ -4,7 +4,6 @@ const flip = (text: string): string => {
   let ret = ''
   for (const c of text) {
     if (typeof flipTable[c] === 'string') {
-      console.log(flipTable[c])
       ret += flipTable[c]
     } else {
       ret += c
@@ -39,7 +38,6 @@ export const init = (bot: CommandClient): void => {
   })
   bot.registerCommand('flip', msg => {
     const text = msg.cleanContent.substring(msg.prefix.length + 'flip'.length).trim()
-    console.log(flip(text))
     return `\`(╯°□°）╯︵ ${flip(text)}\``
   }, {
     hidden: true,
