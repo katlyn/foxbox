@@ -13,10 +13,15 @@ export const init = (bot: CommandClient): void => {
           administrator: true
         }
       },
-      usage: 'utility'
+      usage: 'administration'
     },
     description: 'Configure various bot options.',
-    usage: 'utility'
+    usage: 'administration',
+    requirements: {
+      permissions: {
+        administrator: true
+      }
+    }
   })
 
   config.registerSubcommand('pin-limit', async (msg, [limit]) => {
