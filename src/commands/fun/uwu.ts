@@ -1,4 +1,4 @@
-import { CommandClient } from 'eris'
+import { CommandClient, GuildTextableChannel } from 'eris'
 import { QueryResult } from 'pg'
 import pool from '../../config/postgres'
 
@@ -13,12 +13,33 @@ const init = (bot: CommandClient): void => {
     })
     const lines = []
     if (userScore.rows[0] !== undefined) {
-      lines.push(`You have uwud ${userScore.rows[0].uwus} times.`, '\n')
+      lines.push(`You have uwud ${userScore.rows[0].uwus} times.\n`)
     } else {
-      lines.push('It doesn\'t look like you\'ve uwud before :<', '\n')
+      lines.push('It doesn\'t look like you\'ve uwud before :<\n')
     }
     lines.push('Top five uwuers')
-    topFive.rows.forEach(u => lines.push(`<@${u.id}> - **${u.uwus}**`))
+
+    // Map the uwuers to nice names, only ping if in server.
+    topFive.rows.map(u => {
+      const { guild } = msg.channel as GuildTextableChannel
+      if (guild !== undefined && guild.members.has(u.id)) {
+        return {
+          name: `<@${u.id}>`,
+          uwus: u.uwus
+        }
+      }
+      const user = bot.users.get(u.id)
+      if (user !== undefined) {
+        return {
+          name: user.username,
+          uwus: u.uwus
+        }
+      }
+      return {
+        name: u.id,
+        uwus: u.uwus
+      }
+    }).forEach(u => lines.push(`${u.name} - **${u.uwus}**`))
     await msg.channel.createMessage({
       content: lines.join('\n'),
       allowedMentions: {
@@ -32,7 +53,7 @@ const init = (bot: CommandClient): void => {
   })
 
   bot.on('messageCreate', msg => {
-    if (msg.content.toLocaleLowerCase() === 'uwu' && !msg.author.bot) {
+    if (msg.content.match(/(\s|^)uwu(\s|$)/i) && !msg.author.bot) {
       pool.query({
         text: 'INSERT INTO users (id, uwus) VALUES ($1, 1) ON CONFLICT (id) DO UPDATE SET uwus = users.uwus + 1',
         values: [msg.author.id]
