@@ -15,7 +15,7 @@ const init = (bot: CommandClient): void => {
   const owo = bot.registerCommand('owo', async (msg, args) => {
     const imageQuery = await pool.query<OwoImage>({
       text: 'SELECT * FROM owo_images WHERE tags @> $1 ORDER BY RANDOM() LIMIT 1',
-      values: [args]
+      values: [args.map(a => a.toLowerCase())]
     })
 
     if (imageQuery.rowCount < 1) {
