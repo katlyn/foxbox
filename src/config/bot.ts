@@ -1,6 +1,7 @@
 import { CommandClient } from 'eris'
 
 export const bot = new CommandClient(process.env.TOKEN, {
+  getAllUsers: true,
   intents: [
     'guilds',
     'guildMembers',
