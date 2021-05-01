@@ -1,10 +1,10 @@
 {
-  "author": "theGordHoard <izac@gordhoard.org> (https://gordhoard.org)",
-  "name": "hoardbot",
+  "author": "katlyn <katlyn@katlyn.dev> (https://katlyn.dev)",
+  "name": "foxbox",
   "license": "UNLICENSED",
   "version": "1.0.0",
   "main": "src/index.ts",
-  "repository": "https://github.com/thegordhoard/hoardbot",
+  "repository": "https://github.com/katlyn/foxbox",
   "dependencies": {
     "color-name-list": "^7.31.0",
     "difflib": "^0.2.4",
