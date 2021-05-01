@@ -120,7 +120,6 @@ const init = (bot: CommandClient): void => {
       client.release()
     }
   }, {
-    aliases: ['roles'],
     description: 'Admin management of gangs.',
     fullDescription: 'Similar to reaction roles, only one set of gangs can be active on each guild. A user can only be in one gang at a time',
     defaultSubcommandOptions: {
