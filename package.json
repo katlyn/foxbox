@@ -7,8 +7,8 @@
   "repository": "https://github.com/katlyn/foxbox",
   "dependencies": {
     "color-name-list": "^7.31.0",
+    "detritus-client": "^0.16.3",
     "difflib": "^0.2.4",
-    "eris": "^0.14.0",
     "flake-idgen": "^1.4.0",
     "ioredis": "^4.22.0",
     "nearest-color": "^0.4.4",
