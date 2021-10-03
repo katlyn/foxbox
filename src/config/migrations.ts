@@ -1,14 +1,21 @@
-import { createDb, migrate } from 'postgres-migrations'
-import { Pool } from 'pg'
+import { migrate } from 'postgres-migrations'
 import { resolve } from 'path'
+import pool from './postgres'
 
-const runMigrations = async (pool: Pool): Promise<void> => {
+const runMigrations = async (): Promise<void> => {
+  if (process.env.POSTGRES_URI === undefined) {
+    throw new Error('POSTGRES_URI env var does not exist')
+  }
   const client = await pool.connect()
   // FIXME: This needs to be much more resilient
-  const dbname = process.env.POSTGRES_URI.split('/')[3]
+  const database = process.env.POSTGRES_URI.split('/')[3]
   try {
-    await createDb(dbname, { client })
-    await migrate({ client }, resolve(__dirname, '../../migrations'))
+    await migrate({
+      database,
+      client,
+      // @ts-expect-error
+      ensureDatabaseExists: true
+    }, resolve(__dirname, '../../migrations'))
   } finally {
     client.release()
   }
