@@ -1,28 +1,20 @@
 import 'source-map-support/register'
 
-import { bot } from './config/bot'
-import runMigrations from './config/migrations'
-import pool from './config/postgres'
-
-import commands from './commands'
-import events from './events'
+import client from './config/bot'
+import migrate from './config/migrations'
 
 (async () => {
-  await runMigrations(pool)
+  // Run database migrations
+  await migrate()
 
-  commands.init(bot)
-  events.init(bot)
-
-  bot.on('ready', () => {
-    console.log(`Connected to Discord as ${bot.user.username}#${bot.user.discriminator}`)
-  })
-
+  // Exit (somewhat) gracefully
   process.on('SIGTERM', () => {
-    bot.disconnect({
-      reconnect: false
-    })
+    client.kill()
   })
 
-  await bot.connect()
+  await client.addMultipleIn('commands')
+
+  const cluster = await client.run()
+  console.log(`Connected to Discord. Using ${cluster.shardCount} shards.`)
 })()
-  .catch(error => { throw error })
+  .catch(console.error)
