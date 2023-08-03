@@ -12,7 +12,7 @@
     "flake-idgen": "^1.4.0",
     "ioredis": "^4.22.0",
     "nearest-color": "^0.4.4",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "pg": "^8.5.1",
     "postgres-migrations": "^5.1.1",
     "source-map-support": "^0.5.19"
