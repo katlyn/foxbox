@@ -1,4 +1,4 @@
-FROM node:15-alpine
+FROM node:20-alpine
 RUN npm i -g pnpm
 WORKDIR /usr/build
 COPY tsconfig.json package.json pnpm-lock.yaml /usr/build/
